@@ -29,6 +29,10 @@ def check_bound(rct: pg.Rect) -> tuple[bool,bool]:
 
 
 def gameover(screen: pg.surface) -> None:
+    """
+    引数：画面全体
+    戻り値:なし
+    """
     go_img = pg.Surface((WIDTH, HEIGHT)) #背景サイズ
     pg.draw.rect(go_img,(1,0,0),(0,0,WIDTH,HEIGHT))
     go_img.set_alpha(200)   #透過
@@ -38,7 +42,7 @@ def gameover(screen: pg.surface) -> None:
     kc_rct = kc_img.get_rect()
     go_img.blit(kc_img,[360,300])
     go_img.blit(kc_img,[710,300])
-    text_rct = text.get_rect()
+    text_rct = text.get_rect() #テキスト
     go_img.blit(text,[400,300])
     screen.blit(go_img,(0, 0)) #screenに重ねる
     pg.display.update()
