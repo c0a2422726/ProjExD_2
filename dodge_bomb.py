@@ -36,7 +36,7 @@ def gameover(screen: pg.surface) -> None:
     text = font.render("Game Over", True, (255,255,255))
     kc_img = pg.image.load("fig/8.png") #こうかとん呼び出し
     kc_rct = kc_img.get_rect()
-    go_img.blit(kc_img,[370,300])
+    go_img.blit(kc_img,[360,300])
     go_img.blit(kc_img,[710,300])
     text_rct = text.get_rect()
     go_img.blit(text,[400,300])
