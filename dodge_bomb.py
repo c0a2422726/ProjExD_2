@@ -2,6 +2,7 @@ import os
 import sys
 import random
 import pygame as pg
+import time
 
 
 WIDTH, HEIGHT = 1100, 650
@@ -25,6 +26,23 @@ def check_bound(rct: pg.Rect) -> tuple[bool,bool]:
     if rct.top < 0 or HEIGHT < rct.bottom:
         tate = False
     return yoko, tate
+
+
+def gameover(screen: pg.surface) -> None:
+    go_img = pg.Surface((WIDTH, HEIGHT)) #背景サイズ
+    pg.draw.rect(go_img,(1,0,0),(0,0,WIDTH,HEIGHT))
+    go_img.set_alpha(200)   #透過
+    font = pg.font.Font(None,80)
+    text = font.render("Game Over", True, (255,255,255))
+    kc_img = pg.image.load("fig/8.png") #こうかとん呼び出し
+    kc_rct = kc_img.get_rect()
+    go_img.blit(kc_img,[370,300])
+    go_img.blit(kc_img,[710,300])
+    text_rct = text.get_rect()
+    go_img.blit(text,[400,300])
+    screen.blit(go_img,(0, 0)) #screenに重ねる
+    pg.display.update()
+    time.sleep(5)
 
 
 def main():
@@ -52,10 +70,10 @@ def main():
                 return
             
         if kk_rct.colliderect(bb_rct):  #こうかとんと爆弾の衝突判定
+            gameover(screen)
             return
         
         screen.blit(bg_img, [0, 0]) 
-
         key_lst = pg.key.get_pressed()        
         sum_mv = [0, 0]
 #        if key_lst[pg.K_UP]:
@@ -72,7 +90,7 @@ def main():
                 sum_mv[1] += mv[1]
         kk_rct.move_ip(sum_mv)
         if check_bound(kk_rct) != (True,True):
-            kk_rct.move_ip(-sum_mv[0],-sum_mv[1])   #こうかとんが画面買いだったら
+            kk_rct.move_ip(-sum_mv[0],-sum_mv[1])   #こうかとんが画面外だったら
         screen.blit(kk_img, kk_rct)
         bb_rct.move_ip(vx,vy)
         yoko,tate = check_bound(bb_rct)
